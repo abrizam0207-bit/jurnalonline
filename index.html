@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jurnal kegiatan PKL digital untuk dokumentasi, laporan, dan perkembangan kegiatan siswa TKJ.">
+    <meta name="theme-color" content="#2563eb">
+    <title>Jurnal PKL — Abrizam | SMK Alhadiid 1 Cileungsi</title>
+    
+    <!-- Favicon SVG Inline via Data URI -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/></svg>">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & BASE STYLES
+           ========================================================================== */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-sidebar: #0f172a;
+            --text-sidebar: #94a3b8;
+            --text-sidebar-active: #ffffff;
+            --bg-sidebar-active: #1e293b;
+            
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            
+            --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            --sidebar-width: 260px;
+            --topbar-height: 64px;
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --bg-body: #090d16;
+            --bg-surface: #111827;
+            --bg-sidebar: #0a0e17;
+            --text-sidebar: #64748b;
+            --text-sidebar-active: #f8fafc;
+            --bg-sidebar-active: #1e293b;
+            
+            --border-color: #1f2937;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-light: #64748b;
+            
+            --primary-light: #1e293b;
+            --success-light: #064e3b;
+            --warning-light: #78350f;
+            --danger-light: #7f1d1d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ==========================================================================
+           2. UI COMPONENTS & UTILITIES
+           ========================================================================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        .btn-secondary {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+        .btn-secondary:hover { background-color: var(--border-color); }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: #ffffff;
+        }
+        .btn-danger:hover { opacity: 0.9; }
+
+        .btn-sm { padding: 4px 10px; font-size: 12px; }
+        .btn-full { width: 100%; }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success { background: var(--success-light); color: var(--success); }
+        .badge-warning { background: var(--warning-light); color: var(--warning); }
+        .badge-danger { background: var(--danger-light); color: var(--danger); }
+        .badge-info { background: var(--primary-light); color: var(--primary); }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-body);
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background-color: rgba(0, 0, 0, 0.015);
+        }
+
+        /* SVG Icon styling */
+        .icon {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        /* ==========================================================================
+           3. AUTHENTICATION SCREENS (LOGIN & REGISTER)
+           ========================================================================== */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: var(--bg-body);
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .auth-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            padding: 4px;
+        }
+
+        /* Demo credentials display */
+        .demo-info {
+            margin-top: 16px;
+            padding: 10px;
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            font-size: 11px;
+            color: var(--text-muted);
+            border: 1px dashed var(--primary);
+        }
+
+        /* ==========================================================================
+           4. LAYOUT: SIDEBAR, TOPBAR & CONTENT
+           ========================================================================== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: transform 0.25s ease;
+        }
+
+        .sidebar-brand {
+            padding: 20px;
+            border-bottom: 1px solid var(--bg-sidebar-active);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+        }
+
+        .sidebar-brand-title {
+            font-weight: 700;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+
+        .sidebar-brand-subtitle {
+            font-size: 11px;
+            color: var(--text-sidebar);
+            font-weight: 400;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px 8px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: var(--text-sidebar);
+            border-radius: var(--radius-md);
+            margin-bottom: 4px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-sidebar-active);
+            background-color: var(--bg-sidebar-active);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--bg-sidebar-active);
+        }
+
+        .main-wrapper {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .topbar {
+            height: var(--topbar-height);
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            padding: 6px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .content-area {
+            padding: 24px;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ==========================================================================
+           5. DASHBOARD & STATS GRID
+           ========================================================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+
+        .stat-card-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .stat-card-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stat-card-sub {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* ==========================================================================
+           6. GALLERY, TIMELINE & CALENDAR COMPONENTS
+           ========================================================================== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--bg-surface);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .gallery-card:hover { transform: translateY(-2px); }
+
+        .gallery-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: var(--bg-body);
+        }
+
+        .gallery-info {
+            padding: 12px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+            margin-left: 8px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -26px;
+            top: 2px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--bg-surface);
+        }
+
+        /* Calendar */
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .calendar-day-head {
+            font-weight: 600;
+            padding: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .calendar-day {
+            min-height: 80px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            text-align: right;
+            font-size: 12px;
+            background: var(--bg-surface);
+            cursor: pointer;
+        }
+
+        .calendar-day.other-month { opacity: 0.3; }
+        .calendar-day.today { border-color: var(--primary); font-weight: 700; }
+        .calendar-day-has-report {
+            background-color: var(--primary-light);
+        }
+
+        .calendar-event-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin: 4px auto 0;
+        }
+
+        /* File Upload Dropzone */
+        .dropzone {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            background: var(--bg-body);
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+        .dropzone:hover { border-color: var(--primary); }
+
+        .file-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .file-preview-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .file-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-preview-remove {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           7. MODAL & TOAST NOTIFICATIONS
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-container {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Toast */
+        #toastContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: var(--bg-sidebar);
+            color: #ffffff;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state p { margin-top: 8px; margin-bottom: 16px; font-size: 13px; }
+
+        /* Print styles */
+        @media print {
+            .sidebar, .topbar, .btn, .no-print { display: none !important; }
+            .main-wrapper { margin-left: 0 !important; }
+            .content-area { padding: 0 !important; }
+            .card { border: none !important; box-shadow: none !important; }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-wrapper {
+                margin-left: 0;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       1. LOGIN SCREEN
+       ========================================================================== -->
+    <div id="loginScreen" class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>Jurnal PKL Digital</h1>
+                <p>Abrizam — SMK Alhadiid 1 Cileungsi (TKJ)</p>
+            </div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username / Email</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Masukkan username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Masukkan password" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword')">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                    <label style="font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe"> Ingat Saya
+                    </label>
+                </div>
+
+                <button type="submit" id="btnLoginSubmit" class="btn btn-primary btn-full">Masuk ke Sistem</button>
+            </form>
+
+            <div class="demo-info">
+                <strong>Akun Demo Tersedia:</strong><br>
+                Admin: <code>admin</code> / <code>admin12345</code><br>
+                User: <code>abrizam</code> / <code>user12345</code>
+            </div>
+
+            <div class="auth-footer">
+                Belum punya akun? <a href="#" onclick="showScreen('registerScreen')">Daftar Akun Baru</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       2. REGISTER SCREEN
+       ========================================================================== -->
+    <div id="registerScreen" class="auth-container hidden">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>Pendaftaran Akun</h1>
+                <p>Buat akun siswa PKL baru</p>
+            </div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap *</label>
+                    <input type="text" id="regName" class="form-control" required placeholder="Contoh: Abrizam">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Username *</label>
+                        <input type="text" id="regUsername" class="form-control" required placeholder="username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" id="regEmail" class="form-control" required placeholder="email@domain.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Sekolah *</label>
+                        <input type="text" id="regSchool" class="form-control" value="SMK Alhadiid 1 Cileungsi" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jurusan *</label>
+                        <input type="text" id="regMajor" class="form-control" value="Teknik Komputer dan Jaringan" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Password (Min. 8 karakter) *</label>
+                        <input type="password" id="regPassword" class="form-control" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Konfirmasi Password *</label>
+                        <input type="password" id="regConfirmPassword" class="form-control" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Daftar Sekarang</button>
+            </form>
+
+            <div class="auth-footer">
+                Sudah memiliki akun? <a href="#" onclick="showScreen('loginScreen')">Kembali ke Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       3. USER APP (MAIN LAYOUT)
+       ========================================================================== -->
+    <div id="userApp" class="app-layout hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="userSidebar">
+            <div class="sidebar-brand">
+                <svg class="icon" style="width:24px; height:24px; color:var(--primary)" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <div>
+                    <div class="sidebar-brand-title">Jurnal PKL</div>
+                    <div class="sidebar-brand-subtitle" id="userSidebarSubtitle">SMK Alhadiid 1</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="switchUserTab('dashboard', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('reports', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Laporan Harian
+                </a>
+                <a href="#" class="nav-item" onclick="openReportModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Tambah Laporan
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('gallery', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Dokumentasi
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('calendar', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Kalender PKL
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('timeline', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    Timeline
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('stats', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Statistik
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('profile', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Profil Siswa
+                </a>
+                <a href="#" class="nav-item" onclick="switchUserTab('backup', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Backup & Data
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary btn-full btn-sm" onclick="handleLogout()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Keluar
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" onclick="toggleMobileSidebar('userSidebar')">
+                        <svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <span id="topbarTitle" style="font-weight: 600;">Dashboard</span>
+                </div>
+                <div class="topbar-right">
+                    <button class="btn btn-secondary btn-sm" onclick="toggleDarkMode()" title="Ubah Tema">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <div class="user-profile-badge">
+                        <div class="avatar" id="userAvatar">A</div>
+                        <div style="font-size: 13px;">
+                            <div id="userNameDisplay" style="font-weight: 600;">Abrizam</div>
+                            <div id="userRoleDisplay" style="font-size: 11px; color: var(--text-muted);">Siswa TKJ</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="content-area" id="userContent">
+                <!-- Sections dynamically loaded via JS -->
+            </main>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       4. ADMIN APP (MONITORING READ-ONLY LAYOUT)
+       ========================================================================== -->
+    <div id="adminApp" class="app-layout hidden">
+        <aside class="sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <svg class="icon" style="width:24px; height:24px; color:var(--success)" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div>
+                    <div class="sidebar-brand-title">Admin Panel</div>
+                    <div class="sidebar-brand-subtitle">Monitoring Jurnal PKL</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="switchAdminTab('overview', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Overview System
+                </a>
+                <a href="#" class="nav-item" onclick="switchAdminTab('users', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Monitoring Siswa
+                </a>
+                <a href="#" class="nav-item" onclick="switchAdminTab('allReports', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Seluruh Laporan
+                </a>
+                <a href="#" class="nav-item" onclick="switchAdminTab('activity', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Log Aktivitas
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-secondary btn-full btn-sm" onclick="handleLogout()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Keluar Admin
+                </button>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" onclick="toggleMobileSidebar('adminSidebar')">
+                        <svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <span style="font-weight: 600;">Panel Monitoring Administrator</span>
+                </div>
+                <div class="topbar-right">
+                    <span class="badge badge-warning">READ-ONLY MODE</span>
+                </div>
+            </header>
+
+            <main class="content-area" id="adminContent">
+                <!-- Admin view contents loaded dynamically -->
+            </main>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       5. MODAL CONTAINERS (FOR FORM & PREVIEWS)
+       ========================================================================== -->
+    <div id="appModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle" style="font-size: 16px;">Judul Modal</h3>
+                <button onclick="closeModal()" style="color: var(--text-muted);">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn btn-secondary" onclick="closeModal()">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer"></div>
+
+    <!-- ==========================================================================
+       6. JAVASCRIPT APP LOGIC
+       ========================================================================== -->
+    <script>
+        /* --------------------------------------------------------------------------
+           A. CONSTANTS & INITIAL DATA STRUCTURES
+           -------------------------------------------------------------------------- */
+        const STORAGE_USERS = 'jurnal_pkl_users';
+        const STORAGE_REPORTS = 'jurnal_pkl_reports';
+        const STORAGE_ACTIVITIES = 'jurnal_pkl_activities';
+        const STORAGE_SESSION = 'jurnal_pkl_session';
+        const STORAGE_THEME = 'jurnal_pkl_theme';
+
+        // Pre-populated default accounts
+        const DEFAULT_USERS = [
+            {
+                id: 'usr_admin',
+                name: 'Administrator PKL',
+                username: 'admin',
+                email: 'admin@smkalhadiid.sch.id',
+                passwordHash: 'admin12345', // Simple plain check for demo sandbox
+                role: 'admin',
+                school: 'SMK Alhadiid 1 Cileungsi',
+                major: 'Teknik Komputer dan Jaringan',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: 'usr_abrizam',
+                name: 'Abrizam',
+                username: 'abrizam',
+                email: 'abrizam@smkalhadiid.sch.id',
+                passwordHash: 'user12345',
+                role: 'user',
+                school: 'SMK Alhadiid 1 Cileungsi',
+                major: 'Teknik Komputer dan Jaringan (TKJ)',
+                targetDays: 90,
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        /* --------------------------------------------------------------------------
+           B. STORAGE ENGINE & SECURITY HELPERS
+           -------------------------------------------------------------------------- */
+        function getStorage(key, defaultValue = []) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (e) {
+                console.error("Error reading localStorage:", e);
+                return defaultValue;
+            }
+        }
+
+        function setStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (e) {
+                showToast("Penyimpanan penuh/error!", "danger");
+            }
+        }
+
+        function initData() {
+            if (!localStorage.getItem(STORAGE_USERS)) {
+                setStorage(STORAGE_USERS, DEFAULT_USERS);
+            }
+            if (!localStorage.getItem(STORAGE_REPORTS)) {
+                setStorage(STORAGE_REPORTS, []);
+            }
+            if (!localStorage.getItem(STORAGE_ACTIVITIES)) {
+                setStorage(STORAGE_ACTIVITIES, []);
+            }
+            
+            // Theme setup
+            const theme = localStorage.getItem(STORAGE_THEME) || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        function sanitizeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function logActivity(userId, type, description) {
+            const activities = getStorage(STORAGE_ACTIVITIES, []);
+            activities.unshift({
+                id: 'act_' + Date.now(),
+                userId,
+                type,
+                description,
+                timestamp: new Date().toISOString()
+            });
+            setStorage(STORAGE_ACTIVITIES, activities);
+        }
+
+        /* --------------------------------------------------------------------------
+           C. AUTHENTICATION & SESSION MANAGEMENT
+           -------------------------------------------------------------------------- */
+        function getCurrentSession() {
+            try {
+                const session = sessionStorage.getItem(STORAGE_SESSION);
+                return session ? JSON.parse(session) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const userVal = document.getElementById('loginUsername').value.trim();
+            const passVal = document.getElementById('loginPassword').value;
+
+            const users = getStorage(STORAGE_USERS, DEFAULT_USERS);
+            const user = users.find(u => u.username === userVal || u.email === userVal);
+
+            if (!user || user.passwordHash !== passVal) {
+                showToast("Username atau password salah", "danger");
+                return;
+            }
+
+            // Save Session
+            const sessionData = { userId: user.id, role: user.role, name: user.name };
+            sessionStorage.setItem(STORAGE_SESSION, JSON.stringify(sessionData));
+            
+            logActivity(user.id, "LOGIN", "Berhasil masuk ke aplikasi");
+            showToast("Login berhasil!");
+            checkAuthAndRender();
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const school = document.getElementById('regSchool').value.trim();
+            const major = document.getElementById('regMajor').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPass = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPass) {
+                showToast("Konfirmasi password tidak cocok", "danger");
+                return;
+            }
+
+            const users = getStorage(STORAGE_USERS, []);
+            if (users.some(u => u.username === username)) {
+                showToast("Username sudah digunakan", "danger");
+                return;
+            }
+
+            const newUser = {
+                id: 'usr_' + Date.now(),
+                name,
+                username,
+                email,
+                passwordHash: password,
+                role: 'user',
+                school,
+                major,
+                targetDays: 90,
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            setStorage(STORAGE_USERS, users);
+            logActivity(newUser.id, "REGISTER", "Mendaftar akun baru");
+
+            showToast("Akun berhasil dibuat! Silakan login.");
+            showScreen('loginScreen');
+        }
+
+        function handleLogout() {
+            const session = getCurrentSession();
+            if (session) {
+                logActivity(session.userId, "LOGOUT", "Keluar dari aplikasi");
+            }
+            sessionStorage.removeItem(STORAGE_SESSION);
+            showToast("Berhasil keluar.");
+            checkAuthAndRender();
+        }
+
+        function checkAuthAndRender() {
+            const session = getCurrentSession();
+            const loginScreen = document.getElementById('loginScreen');
+            const regScreen = document.getElementById('registerScreen');
+            const userApp = document.getElementById('userApp');
+            const adminApp = document.getElementById('adminApp');
+
+            // Hide all
+            loginScreen.classList.add('hidden');
+            regScreen.classList.add('hidden');
+            userApp.classList.add('hidden');
+            adminApp.classList.add('hidden');
+
+            if (!session) {
+                loginScreen.classList.remove('hidden');
+                return;
+            }
+
+            const users = getStorage(STORAGE_USERS, []);
+            const user = users.find(u => u.id === session.userId);
+
+            if (!user) {
+                sessionStorage.removeItem(STORAGE_SESSION);
+                loginScreen.classList.remove('hidden');
+                return;
+            }
+
+            if (user.role === 'admin') {
+                adminApp.classList.remove('hidden');
+                renderAdminOverview();
+            } else {
+                userApp.classList.remove('hidden');
+                document.getElementById('userNameDisplay').innerText = user.name;
+                document.getElementById('userAvatar').innerText = user.name.charAt(0).toUpperCase();
+                renderUserDashboard();
+            }
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('registerScreen').classList.add('hidden');
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        /* --------------------------------------------------------------------------
+           D. USER APPLICATION LOGIC
+           -------------------------------------------------------------------------- */
+        let uploadedImagesBase64 = [];
+
+        function renderUserDashboard() {
+            const session = getCurrentSession();
+            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+            
+            const totalReports = reports.length;
+            const totalDocs = reports.reduce((acc, r) => acc + (r.images ? r.images.length : 0), 0);
+            const streak = calculateStreak(reports);
+            const avgProgress = totalReports > 0 ? Math.round(reports.reduce((acc, r) => acc + Number(r.progress || 0), 0) / totalReports) : 0;
+
+            const content = document.getElementById('userContent');
+            content.innerHTML = `
+                <div class="page-title">
+                    <div>
+                        <h2>Selamat Datang, ${sanitizeHTML(session.name)}</h2>
+                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 400;">
+                            ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                        </p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openReportModal()">
+                        <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Tambah Laporan
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Laporan</div>
+                        <div class="stat-card-value">${totalReports}</div>
+                        <div class="stat-card-sub">Laporan tercatat</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Dokumentasi</div>
+                        <div class="stat-card-value">${totalDocs}</div>
+                        <div class="stat-card-sub">Foto kegiatan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Streak Kegiatan</div>
+                        <div class="stat-card-value">${streak} Hari</div>
+                        <div class="stat-card-sub">Berturut-turut</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Rata-rata Progress</div>
+                        <div class="stat-card-value">${avgProgress}%</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: ${avgProgress}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; margin-bottom: 12px;">Laporan Terbaru</h3>
+                    ${renderReportTable(reports.slice(0, 5))}
+                </div>
+            `;
+        }
+
+        function calculateStreak(reports) {
+            if (!reports.length) return 0;
+            const dates = Array.from(new Set(reports.map(r => r.date))).sort().reverse();
+            let streak = 0;
+            let checkDate = new Date();
+            
+            for (let d of dates) {
+                const reportDate = new Date(d);
+                const diffTime = Math.abs(checkDate - reportDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays <= 2) {
+                    streak++;
+                    checkDate = reportDate;
+                } else {
+                    break;
+                }
+            }
+            return streak;
+        }
+
+        function renderReportTable(reports) {
+            if (!reports || reports.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <p>Belum ada laporan kegiatan PKL yang dicatat.</p>
+                        <button class="btn btn-secondary btn-sm" onclick="openReportModal()">Buat Laporan Pertama</button>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Judul Kegiatan</th>
+                                <th>Kategori</th>
+                                <th>Status</th>
+                                <th>Progress</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reports.map(r => `
+                                <tr>
+                                    <td>${r.date}</td>
+                                    <td><strong>${sanitizeHTML(r.title)}</strong></td>
+                                    <td><span class="badge badge-info">${sanitizeHTML(r.category)}</span></td>
+                                    <td>
+                                        <span class="badge ${r.status === 'Selesai' ? 'badge-success' : 'badge-warning'}">
+                                            ${r.status}
+                                        </span>
+                                    </td>
+                                    <td>${r.progress}%</td>
+                                    <td>
+                                        <button class="btn btn-secondary btn-sm" onclick="viewReportDetail('${r.id}')">Detail</button>
+                                        <button class="btn btn-secondary btn-sm" onclick="openReportModal('${r.id}')">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteReport('${r.id}')">Hapus</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function switchUserTab(tab, element) {
+            document.querySelectorAll('#userSidebar .nav-item').forEach(e => e.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            const content = document.getElementById('userContent');
+            const session = getCurrentSession();
+            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+
+            if (tab === 'dashboard') renderUserDashboard();
+            else if (tab === 'reports') {
+                content.innerHTML = `
+                    <div class="page-title">
+                        <h2>Daftar Laporan Harian</h2>
+                        <button class="btn btn-primary" onclick="openReportModal()">Tambah Laporan</button>
+                    </div>
+                    <div class="card" style="margin-bottom: 16px;">
+                        <div class="form-row">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Cari laporan..." oninput="filterUserReports()">
+                            <select id="filterCategory" class="form-control" onchange="filterUserReports()">
+                                <option value="">Semua Kategori</option>
+                                <option>Networking</option><option>MikroTik</option><option>Cisco</option>
+                                <option>Hardware</option><option>Software</option><option>Troubleshooting</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card" id="reportsTableContainer">
+                        ${renderReportTable(reports)}
+                    </div>
+                `;
+            } else if (tab === 'gallery') {
+                const docs = [];
+                reports.forEach(r => {
+                    if (r.images) r.images.forEach(img => docs.push({ img, date: r.date, title: r.title, category: r.category }));
+                });
+
+                content.innerHTML = `
+                    <div class="page-title"><h2>Dokumentasi Kegiatan</h2></div>
+                    ${docs.length === 0 ? '<div class="empty-state"><p>Belum ada foto dokumentasi diunggah.</p></div>' : `
+                        <div class="gallery-grid">
+                            ${docs.map(d => `
+                                <div class="gallery-card" onclick="openImageModal('${d.img}', '${sanitizeHTML(d.title)}')">
+                                    <img src="${d.img}" class="gallery-img" alt="Dokumentasi">
+                                    <div class="gallery-info">
+                                        <div style="font-weight:600; font-size:13px;">${sanitizeHTML(d.title)}</div>
+                                        <div style="font-size:11px; color:var(--text-muted);">${d.date}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                `;
+            } else if (tab === 'calendar') {
+                content.innerHTML = `
+                    <div class="page-title"><h2>Kalender Kegiatan</h2></div>
+                    <div class="card">${renderCalendarView(reports)}</div>
+                `;
+            } else if (tab === 'timeline') {
+                content.innerHTML = `
+                    <div class="page-title"><h2>Timeline Kegiatan</h2></div>
+                    <div class="card">
+                        <div class="timeline">
+                            ${reports.map(r => `
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div style="font-size:12px; color:var(--text-muted);">${r.date}</div>
+                                    <h4 style="font-size:14px;">${sanitizeHTML(r.title)}</h4>
+                                    <p style="font-size:13px; margin-top:4px;">${sanitizeHTML(r.description)}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (tab === 'stats') {
+                content.innerHTML = `<div class="page-title"><h2>Statistik Kegiatan</h2></div><div class="card"><p>Aktivitas tercatat rapi berdasarkan laporan harian Anda.</p></div>`;
+            } else if (tab === 'profile') {
+                renderProfileView();
+            } else if (tab === 'backup') {
+                renderBackupView();
+            }
+        }
+
+        function filterUserReports() {
+            const session = getCurrentSession();
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('filterCategory').value;
+            let reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+
+            if (search) {
+                reports = reports.filter(r => r.title.toLowerCase().includes(search) || r.description.toLowerCase().includes(search));
+            }
+            if (category) {
+                reports = reports.filter(r => r.category === category);
+            }
+
+            document.getElementById('reportsTableContainer').innerHTML = renderReportTable(reports);
+        }
+
+        /* --------------------------------------------------------------------------
+           E. REPORT CRUD & MODALS
+           -------------------------------------------------------------------------- */
+        function openReportModal(reportId = null) {
+            uploadedImagesBase64 = [];
+            const session = getCurrentSession();
+            let report = { title: '', category: 'Networking', date: new Date().toISOString().split('T')[0], startTime: '08:00', endTime: '16:00', location: 'Lab TKJ', description: '', result: '', problem: '', solution: '', status: 'Selesai', progress: 100 };
+
+            if (reportId) {
+                const reports = getStorage(STORAGE_REPORTS, []);
+                report = reports.find(r => r.id === reportId) || report;
+                if (report.images) uploadedImagesBase64 = [...report.images];
+            }
+
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+
+            modalTitle.innerText = reportId ? 'Edit Laporan PKL' : 'Tambah Laporan PKL';
+            modalBody.innerHTML = `
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label class="form-label">Judul Kegiatan *</label>
+                        <input type="text" id="repTitle" class="form-control" value="${sanitizeHTML(report.title)}" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Tanggal *</label>
+                            <input type="date" id="repDate" class="form-control" value="${report.date}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kategori *</label>
+                            <select id="repCategory" class="form-control">
+                                <option ${report.category==='Networking'?'selected':''}>Networking</option>
+                                <option ${report.category==='MikroTik'?'selected':''}>MikroTik</option>
+                                <option ${report.category==='Cisco'?'selected':''}>Cisco</option>
+                                <option ${report.category==='Hardware'?'selected':''}>Hardware</option>
+                                <option ${report.category==='Software'?'selected':''}>Software</option>
+                                <option ${report.category==='Troubleshooting'?'selected':''}>Troubleshooting</option>
+                                <option ${report.category==='Lainnya'?'selected':''}>Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Waktu Mulai - Selesai</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="time" id="repStart" class="form-control" value="${report.startTime}">
+                                <input type="time" id="repEnd" class="form-control" value="${report.endTime}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lokasi</label>
+                            <input type="text" id="repLocation" class="form-control" value="${sanitizeHTML(report.location)}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Deskripsi Kegiatan *</label>
+                        <textarea id="repDesc" class="form-control" rows="3" required>${sanitizeHTML(report.description)}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hasil Kegiatan</label>
+                        <textarea id="repResult" class="form-control" rows="2">${sanitizeHTML(report.result)}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select id="repStatus" class="form-control">
+                                <option ${report.status==='Selesai'?'selected':''}>Selesai</option>
+                                <option ${report.status==='Sedang Dikerjakan'?'selected':''}>Sedang Dikerjakan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Progress (%)</label>
+                            <input type="number" id="repProgress" class="form-control" min="0" max="100" value="${report.progress}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Foto Dokumentasi</label>
+                        <div class="dropzone" onclick="document.getElementById('fileInput').click()">
+                            Pilih atau Drag Foto (JPG/PNG, Max 2MB)
+                            <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                        </div>
+                        <div class="file-preview-container" id="filePreviewArea">
+                            ${uploadedImagesBase64.map((img, idx) => `
+                                <div class="file-preview-item">
+                                    <img src="${img}">
+                                    <div class="file-preview-remove" onclick="removeUploadedImage(${idx})">×</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </form>
+            `;
+
+            modalFooter.innerHTML = `
+                <button class="btn btn-secondary" onclick="closeModal()">Batal</button>
+                <button class="btn btn-primary" onclick="saveReport('${reportId || ''}')">Simpan Laporan</button>
+            `;
+
+            openModal();
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                showToast("Ukuran file maksimal 2MB!", "danger");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                uploadedImagesBase64.push(evt.target.result);
+                renderImagePreviews();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderImagePreviews() {
+            const area = document.getElementById('filePreviewArea');
+            if (!area) return;
+            area.innerHTML = uploadedImagesBase64.map((img, idx) => `
+                <div class="file-preview-item">
+                    <img src="${img}">
+                    <div class="file-preview-remove" onclick="removeUploadedImage(${idx})">×</div>
+                </div>
+            `).join('');
+        }
+
+        function removeUploadedImage(idx) {
+            uploadedImagesBase64.splice(idx, 1);
+            renderImagePreviews();
+        }
+
+        function saveReport(existingId) {
+            const session = getCurrentSession();
+            const title = document.getElementById('repTitle').value.trim();
+            const date = document.getElementById('repDate').value;
+            const category = document.getElementById('repCategory').value;
+            const startTime = document.getElementById('repStart').value;
+            const endTime = document.getElementById('repEnd').value;
+            const location = document.getElementById('repLocation').value;
+            const description = document.getElementById('repDesc').value;
+            const result = document.getElementById('repResult').value;
+            const status = document.getElementById('repStatus').value;
+            const progress = document.getElementById('repProgress').value;
+
+            if (!title || !date || !description) {
+                showToast("Mohon isi semua field wajib!", "danger");
+                return;
+            }
+
+            let reports = getStorage(STORAGE_REPORTS, []);
+
+            if (existingId) {
+                const idx = reports.findIndex(r => r.id === existingId);
+                if (idx !== -1) {
+                    reports[idx] = {
+                        ...reports[idx],
+                        title, date, category, startTime, endTime, location, description, result, status, progress,
+                        images: [...uploadedImagesBase64],
+                        updatedAt: new Date().toISOString()
+                    };
+                }
+            } else {
+                const newReport = {
+                    id: 'rep_' + Date.now(),
+                    userId: session.userId,
+                    title, date, category, startTime, endTime, location, description, result, status, progress,
+                    images: [...uploadedImagesBase64],
+                    createdAt: new Date().toISOString()
+                };
+                reports.unshift(newReport);
+            }
+
+            setStorage(STORAGE_REPORTS, reports);
+            logActivity(session.userId, "REPORT_SAVE", `Menyimpan laporan: ${title}`);
+            showToast("Laporan berhasil disimpan!");
+            closeModal();
+            renderUserDashboard();
+        }
+
+        function deleteReport(reportId) {
+            if (!confirm("Apakah Anda yakin ingin menghapus laporan ini?")) return;
+            const session = getCurrentSession();
+            let reports = getStorage(STORAGE_REPORTS, []);
+            reports = reports.filter(r => r.id !== reportId);
+            setStorage(STORAGE_REPORTS, reports);
+            logActivity(session.userId, "REPORT_DELETE", `Menghapus laporan ID: ${reportId}`);
+            showToast("Laporan berhasil dihapus.");
+            renderUserDashboard();
+        }
+
+       function viewReportDetail(reportId) {
+    const reports = getStorage(STORAGE_REPORTS, []);
+    const report = reports.find(r => r.id === reportId);
+    if (!report) return;
+
+    // Render daftar gambar jika tersedia
+    let imagesHtml = '';
+    if (report.images && report.images.length > 0) {
+        imagesHtml = `
+            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+            <p><strong>Dokumentasi Foto:</strong></p>
+            <div class="gallery-grid" style="margin-top: 8px;">
+                ${report.images.map(img => `
+                    <div class="gallery-card" onclick="openImageModal('${img}', '${sanitizeHTML(report.title)}')">
+                        <img src="${img}" class="gallery-img" alt="Dokumentasi">
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    document.getElementById('modalTitle').innerText = report.title;
+    document.getElementById('modalBody').innerHTML = `
+        <div>
+            <p><strong>Tanggal:</strong> ${report.date} (${report.startTime} - ${report.endTime})</p>
+            <p><strong>Kategori:</strong> ${report.category}</p>
+            <p><strong>Lokasi:</strong> ${sanitizeHTML(report.location)}</p>
+            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+            <p><strong>Deskripsi:</strong></p>
+            <p style="white-space: pre-line;">${sanitizeHTML(report.description)}</p>
+            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+            <p><strong>Hasil:</strong></p>
+            <p>${sanitizeHTML(report.result) || '-'}</p>
+            ${imagesHtml}
+        </div>
+    `;
+    document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
+    openModal();
+}
+        /* --------------------------------------------------------------------------
+           F. CALENDAR RENDERER
+           -------------------------------------------------------------------------- */
+        function renderCalendarView(reports) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const reportDates = new Set(reports.map(r => r.date));
+
+            let daysHtml = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const hasReport = reportDates.has(dateStr);
+                daysHtml += `
+                    <div class="calendar-day ${hasReport ? 'calendar-day-has-report' : ''}">
+                        ${i}
+                        ${hasReport ? '<div class="calendar-event-dot"></div>' : ''}
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="calendar-header">
+                    <h3>${now.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</h3>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day-head">Min</div><div class="calendar-day-head">Sen</div>
+                    <div class="calendar-day-head">Sel</div><div class="calendar-day-head">Rab</div>
+                    <div class="calendar-day-head">Kam</div><div class="calendar-day-head">Jum</div>
+                    <div class="calendar-day-head">Sab</div>
+                    ${daysHtml}
+                </div>
+            `;
+        }
+
+        /* --------------------------------------------------------------------------
+           G. ADMIN READ-ONLY MONITORING LOGIC
+           -------------------------------------------------------------------------- */
+        function renderAdminOverview() {
+            const users = getStorage(STORAGE_USERS, []).filter(u => u.role === 'user');
+            const reports = getStorage(STORAGE_REPORTS, []);
+            const activities = getStorage(STORAGE_ACTIVITIES, []);
+
+            const content = document.getElementById('adminContent');
+            content.innerHTML = `
+                <div class="page-title">
+                    <h2>Monitoring Dashboard Administrator</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Siswa</div>
+                        <div class="stat-card-value">${users.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Total Laporan masuk</div>
+                        <div class="stat-card-value">${reports.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-title">Aktivitas Sistem</div>
+                        <div class="stat-card-value">${activities.length}</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 24px;">
+                    <h3 style="font-size: 15px; margin-bottom: 12px;">Daftar Siswa Terdaftar</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Sekolah / Jurusan</th>
+                                    <th>Jumlah Laporan</th>
+                                    <th>Aksi Monitoring</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${users.map(u => {
+                                    const uReports = reports.filter(r => r.userId === u.id);
+                                    return `
+                                        <tr>
+                                            <td><strong>${sanitizeHTML(u.name)}</strong><br><small>${u.email}</small></td>
+                                            <td>${sanitizeHTML(u.school)}<br><small>${sanitizeHTML(u.major)}</small></td>
+                                            <td>${uReports.length} Laporan</td>
+                                            <td>
+                                                <button class="btn btn-secondary btn-sm" onclick="viewUserDetailAdmin('${u.id}')">Lihat Rekap</button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchAdminTab(tab, element) {
+            document.querySelectorAll('#adminSidebar .nav-item').forEach(e => e.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            if (tab === 'overview') renderAdminOverview();
+            else if (tab === 'users') renderAdminOverview();
+            else if (tab === 'allReports') {
+                const reports = getStorage(STORAGE_REPORTS, []);
+                const users = getStorage(STORAGE_USERS, []);
+                document.getElementById('adminContent').innerHTML = `
+                    <div class="page-title"><h2>Seluruh Laporan Siswa (Read-Only)</h2></div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Siswa</th>
+                                        <th>Tanggal</th>
+                                        <th>Judul</th>
+                                        <th>Kategori</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${reports.map(r => {
+                                        const u = users.find(x => x.id === r.userId);
+                                        return `
+                                            <tr>
+                                                <td>${u ? sanitizeHTML(u.name) : 'Siswa'}</td>
+                                                <td>${r.date}</td>
+                                                <td><strong>${sanitizeHTML(r.title)}</strong></td>
+                                                <td><span class="badge badge-info">${r.category}</span></td>
+                                                <td><button class="btn btn-secondary btn-sm" onclick="viewReportDetail('${r.id}')">Lihat Detail</button></td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } else if (tab === 'activity') {
+                const activities = getStorage(STORAGE_ACTIVITIES, []);
+                document.getElementById('adminContent').innerHTML = `
+                    <div class="page-title"><h2>Log Aktivitas Sistem</h2></div>
+                    <div class="card">
+                        <ul>
+                            ${activities.map(a => `<li style="margin-bottom:8px; font-size:13px;">[${new Date(a.timestamp).toLocaleString('id-ID')}]${sanitizeHTML(a.description)}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+      function viewUserDetailAdmin(userId) {
+    const users = getStorage(STORAGE_USERS, []);
+    const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === userId);
+    const user = users.find(u => u.id === userId);
+
+    document.getElementById('modalTitle').innerText = `Detail Siswa: ${user.name}`;
+    document.getElementById('modalBody').innerHTML = `
+        <div>
+            <p><strong>Sekolah:</strong> ${user.school}</p>
+            <p><strong>Jurusan:</strong> ${user.major}</p>
+            <p><strong>Total Laporan:</strong> ${reports.length}</p>
+            <hr style="margin:12px 0; border:0; border-top:1px solid var(--border-color);">
+            <h4>Laporan Siswa Ini:</h4>
+            <div style="margin-top: 10px;">
+                ${reports.length === 0 ? '<p>Belum ada laporan.</p>' : reports.map(r => `
+                    <div style="padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${r.date} —${sanitizeHTML(r.title)}</strong>
+                            <button class="btn btn-secondary btn-sm" onclick="viewReportDetail('${r.id}')">Lihat Detail & Foto</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
+    openModal();
+}
+
+        /* --------------------------------------------------------------------------
+           H. BACKUP, RESTORE & PROFILE
+           -------------------------------------------------------------------------- */
+        function renderProfileView() {
+            const session = getCurrentSession();
+            const users = getStorage(STORAGE_USERS, []);
+            const user = users.find(u => u.id === session.userId);
+
+            document.getElementById('userContent').innerHTML = `
+                <div class="page-title"><h2>Profil Siswa</h2></div>
+                <div class="card" style="max-width: 600px;">
+                    <form onsubmit="saveProfile(event)">
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" id="profName" class="form-control" value="${sanitizeHTML(user.name)}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sekolah</label>
+                            <input type="text" id="profSchool" class="form-control" value="${sanitizeHTML(user.school)}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jurusan</label>
+                            <input type="text" id="profMajor" class="form-control" value="${sanitizeHTML(user.major)}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Simpan Profil</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const session = getCurrentSession();
+            let users = getStorage(STORAGE_USERS, []);
+            const idx = users.findIndex(u => u.id === session.userId);
+
+            if (idx !== -1) {
+                users[idx].name = document.getElementById('profName').value;
+                users[idx].school = document.getElementById('profSchool').value;
+                users[idx].major = document.getElementById('profMajor').value;
+                setStorage(STORAGE_USERS, users);
+                showToast("Profil berhasil diperbarui!");
+                renderUserDashboard();
+            }
+        }
+
+        function renderBackupView() {
+            document.getElementById('userContent').innerHTML = `
+                <div class="page-title"><h2>Backup & Export Data</h2></div>
+                <div class="card" style="max-width: 600px;">
+                    <h3>Download Data Laporan</h3>
+                    <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+                        Ekspor seluruh laporan Anda ke dalam file JSON atau CSV.
+                    </p>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn btn-primary" onclick="exportDataJSON()">Export Backup (JSON)</button>
+                        <button class="btn btn-secondary" onclick="exportDataCSV()">Export Laporan (CSV)</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function exportDataJSON() {
+            const session = getCurrentSession();
+            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reports, null, 2));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", `backup_jurnal_pkl_${session.userId}.json`);
+            dlAnchorElem.click();
+            showToast("Backup JSON berhasil diunduh.");
+        }
+
+        function exportDataCSV() {
+            const session = getCurrentSession();
+            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+            let csvContent = "data:text/csv;charset=utf-8,Tanggal,Judul,Kategori,Status,Progress\n";
+
+            reports.forEach(r => {
+                csvContent += `"${r.date}","${r.title}","${r.category}","${r.status}","${r.progress}"\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `laporan_pkl_${session.userId}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast("Export CSV berhasil.");
+        }
+
+        /* --------------------------------------------------------------------------
+           I. MODAL & UI UTILITIES
+           -------------------------------------------------------------------------- */
+        function openModal() { document.getElementById('appModal').classList.add('active'); }
+        function closeModal() { document.getElementById('appModal').classList.remove('active'); }
+
+        function openImageModal(imgSrc, title) {
+            document.getElementById('modalTitle').innerText = title || 'Preview Gambar';
+            document.getElementById('modalBody').innerHTML = `<img src="${imgSrc}" style="width:100%; border-radius:var(--radius-md);">`;
+            document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
+            openModal();
+        }
+
+        function togglePasswordVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        function toggleDarkMode() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem(STORAGE_THEME, target);
+        }
+
+        function toggleMobileSidebar(sidebarId) {
+            document.getElementById(sidebarId).classList.toggle('mobile-open');
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast`;
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Global Event Listeners
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Application Startup
+        document.addEventListener('DOMContentLoaded', () => {
+            initData();
+            checkAuthAndRender();
+        });
+    </script>
+</body>
+</html>

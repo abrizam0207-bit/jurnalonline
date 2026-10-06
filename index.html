@@ -307,7 +307,7 @@
         }
 
         /* Demo credentials display */
-        .demo-info {
+        /* .demo-info {
             margin-top: 16px;
             padding: 10px;
             background: var(--primary-light);
@@ -315,7 +315,7 @@
             font-size: 11px;
             color: var(--text-muted);
             border: 1px dashed var(--primary);
-        }
+        } */
 
         /* ==========================================================================
            4. LAYOUT: SIDEBAR, TOPBAR & CONTENT
@@ -777,6 +777,11 @@
             }
         }
     </style>
+    <!-- connect to firebase -->
+    <!-- Firebase Config -->
+    <script type="module" src="./firebase.config.js"></script>
+</head>
+
 </head>
 <body>
 
@@ -790,36 +795,36 @@
                 <p>Abrizam — SMK Alhadiid 1 Cileungsi (TKJ)</p>
             </div>
             
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label">Username / Email</label>
-                    <input type="text" id="loginUsername" class="form-control" placeholder="Masukkan username" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <div class="password-field">
-                        <input type="password" id="loginPassword" class="form-control" placeholder="Masukkan password" required>
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword')">
-                            <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        </button>
-                    </div>
-                </div>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+    <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" id="loginUsername" class="form-control" placeholder="nama@email.com" required>
+    </div>
+    
+    <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="password-field">
+            <input type="password" id="loginPassword" class="form-control" placeholder="Masukkan password" required>
+            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword')">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+    </div>
 
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <label style="font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" id="rememberMe"> Ingat Saya
-                    </label>
-                </div>
+    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+        <label style="font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="rememberMe" checked> Ingat Saya
+        </label>
+    </div>
 
-                <button type="submit" id="btnLoginSubmit" class="btn btn-primary btn-full">Masuk ke Sistem</button>
-            </form>
+    <button type="submit" id="btnLoginSubmit" class="btn btn-primary btn-full">Masuk ke Sistem</button>
+</form>
 
-            <div class="demo-info">
-                <strong>Akun Demo Tersedia:</strong><br>
-                Admin: <code>admin</code> / <code>admin12345</code><br>
-                User: <code>abrizam</code> / <code>user12345</code>
-            </div>
+<!-- <div class="demo-info">
+    <strong>Info Akun:</strong><br>
+    Buat akun baru lewat menu <em>Daftar Akun Baru</em>.<br>
+    Untuk akun admin, hubungi administrator sistem.
+</div> -->
 
             <div class="auth-footer">
                 Belum punya akun? <a href="#" onclick="showScreen('registerScreen')">Daftar Akun Baru</a>
@@ -846,7 +851,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Username *</label>
-                        <input type="text" id="regUsername" class="form-control" required placeholder="username">
+                        <input type="text" id="regUsername" class="form-control" required placeholder="Contoh: abrizam">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Email *</label>
@@ -1063,78 +1068,25 @@
        6. JAVASCRIPT APP LOGIC
        ========================================================================== -->
     <script>
-        /* --------------------------------------------------------------------------
-           A. CONSTANTS & INITIAL DATA STRUCTURES
-           -------------------------------------------------------------------------- */
-        const STORAGE_USERS = 'jurnal_pkl_users';
-        const STORAGE_REPORTS = 'jurnal_pkl_reports';
-        const STORAGE_ACTIVITIES = 'jurnal_pkl_activities';
-        const STORAGE_SESSION = 'jurnal_pkl_session';
-        const STORAGE_THEME = 'jurnal_pkl_theme';
+       /* --------------------------------------------------------------------------
+   A. CONSTANTS & INITIAL DATA STRUCTURES
+   -------------------------------------------------------------------------- */
+const STORAGE_THEME = 'jurnal_pkl_theme'; // tetap dipakai untuk dark mode
 
-        // Pre-populated default accounts
-        const DEFAULT_USERS = [
-            {
-                id: 'usr_admin',
-                name: 'Administrator PKL',
-                username: 'admin',
-                email: 'admin@smkalhadiid.sch.id',
-                passwordHash: 'admin12345', // Simple plain check for demo sandbox
-                role: 'admin',
-                school: 'SMK Alhadiid 1 Cileungsi',
-                major: 'Teknik Komputer dan Jaringan',
-                createdAt: new Date().toISOString()
-            },
-            {
-                id: 'usr_abrizam',
-                name: 'Abrizam',
-                username: 'abrizam',
-                email: 'abrizam@smkalhadiid.sch.id',
-                passwordHash: 'user12345',
-                role: 'user',
-                school: 'SMK Alhadiid 1 Cileungsi',
-                major: 'Teknik Komputer dan Jaringan (TKJ)',
-                targetDays: 90,
-                createdAt: new Date().toISOString()
-            }
-        ];
+// Akun admin & user TIDAK LAGI di sini.
+// Akun dibuat langsung di Firebase Console / via Register.
+// Role admin di-set manual di Firestore (field: role = "admin").
 
         /* --------------------------------------------------------------------------
            B. STORAGE ENGINE & SECURITY HELPERS
            -------------------------------------------------------------------------- */
-        function getStorage(key, defaultValue = []) {
-            try {
-                const data = localStorage.getItem(key);
-                return data ? JSON.parse(data) : defaultValue;
-            } catch (e) {
-                console.error("Error reading localStorage:", e);
-                return defaultValue;
-            }
-        }
+      
 
-        function setStorage(key, value) {
-            try {
-                localStorage.setItem(key, JSON.stringify(value));
-            } catch (e) {
-                showToast("Penyimpanan penuh/error!", "danger");
-            }
-        }
-
-        function initData() {
-            if (!localStorage.getItem(STORAGE_USERS)) {
-                setStorage(STORAGE_USERS, DEFAULT_USERS);
-            }
-            if (!localStorage.getItem(STORAGE_REPORTS)) {
-                setStorage(STORAGE_REPORTS, []);
-            }
-            if (!localStorage.getItem(STORAGE_ACTIVITIES)) {
-                setStorage(STORAGE_ACTIVITIES, []);
-            }
-            
-            // Theme setup
-            const theme = localStorage.getItem(STORAGE_THEME) || 'light';
-            document.documentElement.setAttribute('data-theme', theme);
-        }
+             function initData() {
+        // Cuma setup tema aja
+        const theme = localStorage.getItem(STORAGE_THEME) || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    }
 
         function sanitizeHTML(str) {
             if (!str) return '';
@@ -1146,141 +1098,164 @@
                 .replace(/'/g, '&#039;');
         }
 
-        function logActivity(userId, type, description) {
-            const activities = getStorage(STORAGE_ACTIVITIES, []);
-            activities.unshift({
-                id: 'act_' + Date.now(),
-                userId,
+           async function logActivity(type, description) {
+        const user = window.auth?.currentUser;
+        if (!user) return;
+        const { collection, addDoc, serverTimestamp } = window.fb;
+        
+        try {
+            await addDoc(collection(window.db, "activities"), {
+                userId: user.uid,
                 type,
                 description,
-                timestamp: new Date().toISOString()
+                timestamp: serverTimestamp()
             });
-            setStorage(STORAGE_ACTIVITIES, activities);
+        } catch (e) {
+            console.error("Gagal log activity:", e);
         }
+    }
 
         /* --------------------------------------------------------------------------
            C. AUTHENTICATION & SESSION MANAGEMENT
            -------------------------------------------------------------------------- */
-        function getCurrentSession() {
-            try {
-                const session = sessionStorage.getItem(STORAGE_SESSION);
-                return session ? JSON.parse(session) : null;
-            } catch (e) {
-                return null;
-            }
-        }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const userVal = document.getElementById('loginUsername').value.trim();
-            const passVal = document.getElementById('loginPassword').value;
 
-            const users = getStorage(STORAGE_USERS, DEFAULT_USERS);
-            const user = users.find(u => u.username === userVal || u.email === userVal);
+         async function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const remember = document.getElementById('rememberMe').checked;
 
-            if (!user || user.passwordHash !== passVal) {
-                showToast("Username atau password salah", "danger");
-                return;
-            }
+        const { 
+            signInWithEmailAndPassword, 
+            setPersistence,
+            browserLocalPersistence, 
+            browserSessionPersistence 
+        } = window.fb;
 
-            // Save Session
-            const sessionData = { userId: user.id, role: user.role, name: user.name };
-            sessionStorage.setItem(STORAGE_SESSION, JSON.stringify(sessionData));
+        try {
+            // Set persistence dulu (Ingat Saya)
+            await setPersistence(
+                window.auth, 
+                remember ? browserLocalPersistence : browserSessionPersistence
+            );
             
-            logActivity(user.id, "LOGIN", "Berhasil masuk ke aplikasi");
+            // Login
+            await signInWithEmailAndPassword(window.auth, email, password);
+            
+            await logActivity("LOGIN", "Berhasil masuk ke aplikasi");
             showToast("Login berhasil!");
-            checkAuthAndRender();
+            // checkAuthAndRender dipanggil otomatis oleh onAuthStateChanged
+        } catch (err) {
+            console.error(err);
+            showToast("Email atau password salah", "danger");
+        }
+    }
+
+           async function handleRegister(e) {
+        e.preventDefault();
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const school = document.getElementById('regSchool').value.trim();
+        const major = document.getElementById('regMajor').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const confirmPass = document.getElementById('regConfirmPassword').value;
+
+        if (password !== confirmPass) {
+            return showToast("Konfirmasi password tidak cocok", "danger");
         }
 
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const school = document.getElementById('regSchool').value.trim();
-            const major = document.getElementById('regMajor').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const confirmPass = document.getElementById('regConfirmPassword').value;
+        const { 
+            createUserWithEmailAndPassword, 
+            collection, addDoc, serverTimestamp 
+        } = window.fb;
 
-            if (password !== confirmPass) {
-                showToast("Konfirmasi password tidak cocok", "danger");
-                return;
-            }
+        try {
+            // 1. Buat user di Firebase Auth
+            const cred = await createUserWithEmailAndPassword(window.auth, email, password);
 
-            const users = getStorage(STORAGE_USERS, []);
-            if (users.some(u => u.username === username)) {
-                showToast("Username sudah digunakan", "danger");
-                return;
-            }
-
-            const newUser = {
-                id: 'usr_' + Date.now(),
-                name,
-                username,
-                email,
-                passwordHash: password,
+            // 2. Simpan data user di Firestore
+            await addDoc(collection(window.db, "users"), {
+                uid: cred.user.uid,
+                name, email, school, major,
                 role: 'user',
-                school,
-                major,
                 targetDays: 90,
-                createdAt: new Date().toISOString()
-            };
-
-            users.push(newUser);
-            setStorage(STORAGE_USERS, users);
-            logActivity(newUser.id, "REGISTER", "Mendaftar akun baru");
+                createdAt: serverTimestamp()
+            });
 
             showToast("Akun berhasil dibuat! Silakan login.");
             showScreen('loginScreen');
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal daftar: " + err.message, "danger");
         }
-
-        function handleLogout() {
-            const session = getCurrentSession();
-            if (session) {
-                logActivity(session.userId, "LOGOUT", "Keluar dari aplikasi");
-            }
-            sessionStorage.removeItem(STORAGE_SESSION);
+    }
+          async function handleLogout() {
+        try {
+            await logActivity("LOGOUT", "Keluar dari aplikasi");
+            const { signOut } = window.fb;
+            await signOut(window.auth);
             showToast("Berhasil keluar.");
-            checkAuthAndRender();
+            // checkAuthAndRender otomatis dipanggil oleh onAuthStateChanged
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal keluar", "danger");
         }
+    }
 
-        function checkAuthAndRender() {
-            const session = getCurrentSession();
+            function checkAuthAndRender() {
+        const { onAuthStateChanged, collection, getDocs, query, where } = window.fb;
+
+        onAuthStateChanged(window.auth, async (firebaseUser) => {
             const loginScreen = document.getElementById('loginScreen');
             const regScreen = document.getElementById('registerScreen');
             const userApp = document.getElementById('userApp');
             const adminApp = document.getElementById('adminApp');
 
-            // Hide all
+            // Hide all dulu
             loginScreen.classList.add('hidden');
             regScreen.classList.add('hidden');
             userApp.classList.add('hidden');
             adminApp.classList.add('hidden');
 
-            if (!session) {
+            // Belum login → tampilkan login
+            if (!firebaseUser) {
                 loginScreen.classList.remove('hidden');
                 return;
             }
 
-            const users = getStorage(STORAGE_USERS, []);
-            const user = users.find(u => u.id === session.userId);
+            // Ambil data user dari Firestore
+            try {
+                const q = query(
+                    collection(window.db, "users"), 
+                    where("uid", "==", firebaseUser.uid)
+                );
+                const snap = await getDocs(q);
 
-            if (!user) {
-                sessionStorage.removeItem(STORAGE_SESSION);
+                if (snap.empty) {
+                    // Data user tidak ditemukan di Firestore
+                    loginScreen.classList.remove('hidden');
+                    return;
+                }
+
+                const userData = { id: snap.docs[0].id, ...snap.docs[0].data() };
+                window.currentUserData = userData; // simpan global
+
+                if (userData.role === 'admin') {
+                    adminApp.classList.remove('hidden');
+                    renderAdminOverview();
+                } else {
+                    userApp.classList.remove('hidden');
+                    document.getElementById('userNameDisplay').innerText = userData.name;
+                    document.getElementById('userAvatar').innerText = userData.name.charAt(0).toUpperCase();
+                    renderUserDashboard();
+                }
+            } catch (err) {
+                console.error("Gagal ambil data user:", err);
                 loginScreen.classList.remove('hidden');
-                return;
             }
-
-            if (user.role === 'admin') {
-                adminApp.classList.remove('hidden');
-                renderAdminOverview();
-            } else {
-                userApp.classList.remove('hidden');
-                document.getElementById('userNameDisplay').innerText = user.name;
-                document.getElementById('userAvatar').innerText = user.name.charAt(0).toUpperCase();
-                renderUserDashboard();
-            }
-        }
+        });
+    }
 
         function showScreen(screenId) {
             document.getElementById('loginScreen').classList.add('hidden');
@@ -1293,60 +1268,73 @@
            -------------------------------------------------------------------------- */
         let uploadedImagesBase64 = [];
 
-        function renderUserDashboard() {
-            const session = getCurrentSession();
-            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
-            
-            const totalReports = reports.length;
-            const totalDocs = reports.reduce((acc, r) => acc + (r.images ? r.images.length : 0), 0);
-            const streak = calculateStreak(reports);
-            const avgProgress = totalReports > 0 ? Math.round(reports.reduce((acc, r) => acc + Number(r.progress || 0), 0) / totalReports) : 0;
+           async function renderUserDashboard() {
+        const user = window.auth.currentUser;
+        if (!user) return;
 
-            const content = document.getElementById('userContent');
-            content.innerHTML = `
-                <div class="page-title">
-                    <div>
-                        <h2>Selamat Datang, ${sanitizeHTML(session.name)}</h2>
-                        <p style="font-size: 12px; color: var(--text-muted); font-weight: 400;">
-                            ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                        </p>
-                    </div>
-                    <button class="btn btn-primary" onclick="openReportModal()">
-                        <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                        Tambah Laporan
-                    </button>
-                </div>
+        const { collection, getDocs, query, where, orderBy } = window.fb;
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-card-title">Total Laporan</div>
-                        <div class="stat-card-value">${totalReports}</div>
-                        <div class="stat-card-sub">Laporan tercatat</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-title">Dokumentasi</div>
-                        <div class="stat-card-value">${totalDocs}</div>
-                        <div class="stat-card-sub">Foto kegiatan</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-title">Streak Kegiatan</div>
-                        <div class="stat-card-value">${streak} Hari</div>
-                        <div class="stat-card-sub">Berturut-turut</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-title">Rata-rata Progress</div>
-                        <div class="stat-card-value">${avgProgress}%</div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: ${avgProgress}%"></div>
-                        </div>
-                    </div>
-                </div>
+        const q = query(
+            collection(window.db, "reports"),
+            where("userId", "==", user.uid),
+            orderBy("createdAt", "desc")
+        );
+        const snap = await getDocs(q);
+        const reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const userData = window.currentUserData || {};
 
-                <div class="card" style="margin-bottom: 24px;">
-                    <h3 style="font-size: 15px; margin-bottom: 12px;">Laporan Terbaru</h3>
-                    ${renderReportTable(reports.slice(0, 5))}
+        const totalReports = reports.length;
+        const totalDocs = reports.reduce((acc, r) => acc + (r.images ? r.images.length : 0), 0);
+        const streak = calculateStreak(reports);
+        const avgProgress = totalReports > 0 
+            ? Math.round(reports.reduce((acc, r) => acc + Number(r.progress || 0), 0) / totalReports) 
+            : 0;
+
+        const content = document.getElementById('userContent');
+        content.innerHTML = `
+            <div class="page-title">
+                <div>
+                    <h2>Selamat Datang, ${sanitizeHTML(userData.name || 'Siswa')}</h2>
+                    <p style="font-size: 12px; color: var(--text-muted); font-weight: 400;">
+                        ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    </p>
                 </div>
-            `;
+                <button class="btn btn-primary" onclick="openReportModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Tambah Laporan
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-title">Total Laporan</div>
+                    <div class="stat-card-value">${totalReports}</div>
+                    <div class="stat-card-sub">Laporan tercatat</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Dokumentasi</div>
+                    <div class="stat-card-value">${totalDocs}</div>
+                    <div class="stat-card-sub">Foto kegiatan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Streak Kegiatan</div>
+                    <div class="stat-card-value">${streak} Hari</div>
+                    <div class="stat-card-sub">Berturut-turut</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-title">Rata-rata Progress</div>
+                    <div class="stat-card-value">${avgProgress}%</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${avgProgress}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3 style="font-size: 15px; margin-bottom: 12px;">Laporan Terbaru</h3>
+                ${renderReportTable(reports.slice(0, 5))}
+            </div>
+        `;
         }
 
         function calculateStreak(reports) {
@@ -1418,116 +1406,161 @@
             `;
         }
 
-        function switchUserTab(tab, element) {
-            document.querySelectorAll('#userSidebar .nav-item').forEach(e => e.classList.remove('active'));
-            if(element) element.classList.add('active');
+           async function switchUserTab(tab, element) {
+        document.querySelectorAll('#userSidebar .nav-item').forEach(e => e.classList.remove('active'));
+        if (element) element.classList.add('active');
 
-            const content = document.getElementById('userContent');
-            const session = getCurrentSession();
-            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+        const content = document.getElementById('userContent');
+        const user = window.auth.currentUser;
+        if (!user) return;
 
-            if (tab === 'dashboard') renderUserDashboard();
-            else if (tab === 'reports') {
-                content.innerHTML = `
-                    <div class="page-title">
-                        <h2>Daftar Laporan Harian</h2>
-                        <button class="btn btn-primary" onclick="openReportModal()">Tambah Laporan</button>
-                    </div>
-                    <div class="card" style="margin-bottom: 16px;">
-                        <div class="form-row">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Cari laporan..." oninput="filterUserReports()">
-                            <select id="filterCategory" class="form-control" onchange="filterUserReports()">
-                                <option value="">Semua Kategori</option>
-                                <option>Networking</option><option>MikroTik</option><option>Cisco</option>
-                                <option>Hardware</option><option>Software</option><option>Troubleshooting</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card" id="reportsTableContainer">
-                        ${renderReportTable(reports)}
-                    </div>
-                `;
-            } else if (tab === 'gallery') {
-                const docs = [];
-                reports.forEach(r => {
-                    if (r.images) r.images.forEach(img => docs.push({ img, date: r.date, title: r.title, category: r.category }));
-                });
+        // Ambil reports dari Firestore
+        const { collection, getDocs, query, where, orderBy } = window.fb;
+        const q = query(
+            collection(window.db, "reports"),
+            where("userId", "==", user.uid),
+            orderBy("createdAt", "desc")
+        );
+        const snap = await getDocs(q);
+        const reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-                content.innerHTML = `
-                    <div class="page-title"><h2>Dokumentasi Kegiatan</h2></div>
-                    ${docs.length === 0 ? '<div class="empty-state"><p>Belum ada foto dokumentasi diunggah.</p></div>' : `
-                        <div class="gallery-grid">
-                            ${docs.map(d => `
-                                <div class="gallery-card" onclick="openImageModal('${d.img}', '${sanitizeHTML(d.title)}')">
-                                    <img src="${d.img}" class="gallery-img" alt="Dokumentasi">
-                                    <div class="gallery-info">
-                                        <div style="font-weight:600; font-size:13px;">${sanitizeHTML(d.title)}</div>
-                                        <div style="font-size:11px; color:var(--text-muted);">${d.date}</div>
-                                    </div>
+        if (tab === 'dashboard') renderUserDashboard();
+        
+        else if (tab === 'reports') {
+            content.innerHTML = `
+                <div class="page-title">
+                    <h2>Daftar Laporan Harian</h2>
+                    <button class="btn btn-primary" onclick="openReportModal()">Tambah Laporan</button>
+                </div>
+                <div class="card" style="margin-bottom: 16px;">
+                    <div class="form-row">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Cari laporan..." oninput="filterUserReports()">
+                        <select id="filterCategory" class="form-control" onchange="filterUserReports()">
+                            <option value="">Semua Kategori</option>
+                            <option>Networking</option><option>MikroTik</option><option>Cisco</option>
+                            <option>Hardware</option><option>Software</option><option>Troubleshooting</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card" id="reportsTableContainer">
+                    ${renderReportTable(reports)}
+                </div>
+            `;
+        }
+        
+        else if (tab === 'gallery') {
+            const docs = [];
+            reports.forEach(r => {
+                if (r.images) r.images.forEach(img => docs.push({ img, date: r.date, title: r.title, category: r.category }));
+            });
+
+            content.innerHTML = `
+                <div class="page-title"><h2>Dokumentasi Kegiatan</h2></div>
+                ${docs.length === 0 ? '<div class="empty-state"><p>Belum ada foto dokumentasi diunggah.</p></div>' : `
+                    <div class="gallery-grid">
+                        ${docs.map(d => `
+                            <div class="gallery-card" onclick="openImageModal('${d.img}', '${sanitizeHTML(d.title)}')">
+                                <img src="${d.img}" class="gallery-img" alt="Dokumentasi">
+                                <div class="gallery-info">
+                                    <div style="font-weight:600; font-size:13px;">${sanitizeHTML(d.title)}</div>
+                                    <div style="font-size:11px; color:var(--text-muted);">${d.date}</div>
                                 </div>
-                            `).join('')}
-                        </div>
-                    `}
-                `;
-            } else if (tab === 'calendar') {
-                content.innerHTML = `
-                    <div class="page-title"><h2>Kalender Kegiatan</h2></div>
-                    <div class="card">${renderCalendarView(reports)}</div>
-                `;
-            } else if (tab === 'timeline') {
-                content.innerHTML = `
-                    <div class="page-title"><h2>Timeline Kegiatan</h2></div>
-                    <div class="card">
-                        <div class="timeline">
-                            ${reports.map(r => `
-                                <div class="timeline-item">
-                                    <div class="timeline-dot"></div>
-                                    <div style="font-size:12px; color:var(--text-muted);">${r.date}</div>
-                                    <h4 style="font-size:14px;">${sanitizeHTML(r.title)}</h4>
-                                    <p style="font-size:13px; margin-top:4px;">${sanitizeHTML(r.description)}</p>
-                                </div>
-                            `).join('')}
-                        </div>
+                            </div>
+                        `).join('')}
                     </div>
-                `;
-            } else if (tab === 'stats') {
-                content.innerHTML = `<div class="page-title"><h2>Statistik Kegiatan</h2></div><div class="card"><p>Aktivitas tercatat rapi berdasarkan laporan harian Anda.</p></div>`;
-            } else if (tab === 'profile') {
-                renderProfileView();
-            } else if (tab === 'backup') {
-                renderBackupView();
-            }
+                `}
+            `;
+        }
+        
+        else if (tab === 'calendar') {
+            content.innerHTML = `
+                <div class="page-title"><h2>Kalender Kegiatan</h2></div>
+                <div class="card">${renderCalendarView(reports)}</div>
+            `;
+        }
+        
+        else if (tab === 'timeline') {
+            content.innerHTML = `
+                <div class="page-title"><h2>Timeline Kegiatan</h2></div>
+                <div class="card">
+                    <div class="timeline">
+                        ${reports.map(r => `
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div style="font-size:12px; color:var(--text-muted);">${r.date}</div>
+                                <h4 style="font-size:14px;">${sanitizeHTML(r.title)}</h4>
+                                <p style="font-size:13px; margin-top:4px;">${sanitizeHTML(r.description)}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        else if (tab === 'stats') {
+            content.innerHTML = `<div class="page-title"><h2>Statistik Kegiatan</h2></div><div class="card"><p>Aktivitas tercatat rapi berdasarkan laporan harian Anda.</p></div>`;
+        }
+        
+        else if (tab === 'profile') {
+            renderProfileView();
+        }
+        
+        else if (tab === 'backup') {
+            renderBackupView();
+        }
+    }
+
+           async function filterUserReports() {
+        const user = window.auth.currentUser;
+        if (!user) return;
+
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const category = document.getElementById('filterCategory').value;
+
+        const { collection, getDocs, query, where, orderBy } = window.fb;
+        const q = query(
+            collection(window.db, "reports"),
+            where("userId", "==", user.uid),
+            orderBy("createdAt", "desc")
+        );
+        const snap = await getDocs(q);
+        let reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        if (search) {
+            reports = reports.filter(r => 
+                (r.title || '').toLowerCase().includes(search) || 
+                (r.description || '').toLowerCase().includes(search)
+            );
+        }
+        if (category) {
+            reports = reports.filter(r => r.category === category);
         }
 
-        function filterUserReports() {
-            const session = getCurrentSession();
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const category = document.getElementById('filterCategory').value;
-            let reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
-
-            if (search) {
-                reports = reports.filter(r => r.title.toLowerCase().includes(search) || r.description.toLowerCase().includes(search));
-            }
-            if (category) {
-                reports = reports.filter(r => r.category === category);
-            }
-
-            document.getElementById('reportsTableContainer').innerHTML = renderReportTable(reports);
-        }
+        document.getElementById('reportsTableContainer').innerHTML = renderReportTable(reports);
+    }
 
         /* --------------------------------------------------------------------------
            E. REPORT CRUD & MODALS
            -------------------------------------------------------------------------- */
-        function openReportModal(reportId = null) {
+       async function openReportModal(reportId = null) {
             uploadedImagesBase64 = [];
-            const session = getCurrentSession();
+           const session = { userId: window.auth?.currentUser?.uid };
             let report = { title: '', category: 'Networking', date: new Date().toISOString().split('T')[0], startTime: '08:00', endTime: '16:00', location: 'Lab TKJ', description: '', result: '', problem: '', solution: '', status: 'Selesai', progress: 100 };
 
-            if (reportId) {
-                const reports = getStorage(STORAGE_REPORTS, []);
-                report = reports.find(r => r.id === reportId) || report;
-                if (report.images) uploadedImagesBase64 = [...report.images];
+                       if (reportId) {
+            try {
+                const { doc, getDoc } = window.fb;
+                const snap = await getDoc(doc(window.db, "reports", reportId));
+                if (snap.exists()) {
+                    report = { id: snap.id, ...snap.data() };
+                    if (report.images) uploadedImagesBase64 = [...report.images];
+                }
+            } catch (err) {
+                console.error("Gagal load laporan:", err);
+                showToast("Gagal memuat data laporan", "danger");
+                return;
             }
+        }
 
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
@@ -1651,104 +1684,120 @@
             renderImagePreviews();
         }
 
-        function saveReport(existingId) {
-            const session = getCurrentSession();
-            const title = document.getElementById('repTitle').value.trim();
-            const date = document.getElementById('repDate').value;
-            const category = document.getElementById('repCategory').value;
-            const startTime = document.getElementById('repStart').value;
-            const endTime = document.getElementById('repEnd').value;
-            const location = document.getElementById('repLocation').value;
-            const description = document.getElementById('repDesc').value;
-            const result = document.getElementById('repResult').value;
-            const status = document.getElementById('repStatus').value;
-            const progress = document.getElementById('repProgress').value;
+            async function saveReport(existingId) {
+        const user = window.auth.currentUser;
+        if (!user) return showToast("Harus login dulu", "danger");
 
-            if (!title || !date || !description) {
-                showToast("Mohon isi semua field wajib!", "danger");
-                return;
-            }
+        const title = document.getElementById('repTitle').value.trim();
+        const date = document.getElementById('repDate').value;
+        const category = document.getElementById('repCategory').value;
+        const startTime = document.getElementById('repStart').value;
+        const endTime = document.getElementById('repEnd').value;
+        const location = document.getElementById('repLocation').value;
+        const description = document.getElementById('repDesc').value;
+        const result = document.getElementById('repResult').value;
+        const status = document.getElementById('repStatus').value;
+        const progress = Number(document.getElementById('repProgress').value);
 
-            let reports = getStorage(STORAGE_REPORTS, []);
+        if (!title || !date || !description) {
+            return showToast("Mohon isi semua field wajib!", "danger");
+        }
 
+        const { collection, addDoc, doc, updateDoc, serverTimestamp } = window.fb;
+
+        const data = {
+            userId: user.uid,
+            title, date, category, startTime, endTime, location,
+            description, result, status, progress,
+            images: [...uploadedImagesBase64],
+            updatedAt: serverTimestamp()
+        };
+
+        try {
             if (existingId) {
-                const idx = reports.findIndex(r => r.id === existingId);
-                if (idx !== -1) {
-                    reports[idx] = {
-                        ...reports[idx],
-                        title, date, category, startTime, endTime, location, description, result, status, progress,
-                        images: [...uploadedImagesBase64],
-                        updatedAt: new Date().toISOString()
-                    };
-                }
+                // EDIT
+                await updateDoc(doc(window.db, "reports", existingId), data);
             } else {
-                const newReport = {
-                    id: 'rep_' + Date.now(),
-                    userId: session.userId,
-                    title, date, category, startTime, endTime, location, description, result, status, progress,
-                    images: [...uploadedImagesBase64],
-                    createdAt: new Date().toISOString()
-                };
-                reports.unshift(newReport);
+                // BARU
+                data.createdAt = serverTimestamp();
+                await addDoc(collection(window.db, "reports"), data);
             }
 
-            setStorage(STORAGE_REPORTS, reports);
-            logActivity(session.userId, "REPORT_SAVE", `Menyimpan laporan: ${title}`);
+            await logActivity("REPORT_SAVE", `Menyimpan laporan: ${title}`);
             showToast("Laporan berhasil disimpan!");
             closeModal();
             renderUserDashboard();
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal simpan: " + err.message, "danger");
         }
-
-        function deleteReport(reportId) {
-            if (!confirm("Apakah Anda yakin ingin menghapus laporan ini?")) return;
-            const session = getCurrentSession();
-            let reports = getStorage(STORAGE_REPORTS, []);
-            reports = reports.filter(r => r.id !== reportId);
-            setStorage(STORAGE_REPORTS, reports);
-            logActivity(session.userId, "REPORT_DELETE", `Menghapus laporan ID: ${reportId}`);
-            showToast("Laporan berhasil dihapus.");
-            renderUserDashboard();
-        }
-
-       function viewReportDetail(reportId) {
-    const reports = getStorage(STORAGE_REPORTS, []);
-    const report = reports.find(r => r.id === reportId);
-    if (!report) return;
-
-    // Render daftar gambar jika tersedia
-    let imagesHtml = '';
-    if (report.images && report.images.length > 0) {
-        imagesHtml = `
-            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
-            <p><strong>Dokumentasi Foto:</strong></p>
-            <div class="gallery-grid" style="margin-top: 8px;">
-                ${report.images.map(img => `
-                    <div class="gallery-card" onclick="openImageModal('${img}', '${sanitizeHTML(report.title)}')">
-                        <img src="${img}" class="gallery-img" alt="Dokumentasi">
-                    </div>
-                `).join('')}
-            </div>
-        `;
     }
 
-    document.getElementById('modalTitle').innerText = report.title;
-    document.getElementById('modalBody').innerHTML = `
-        <div>
-            <p><strong>Tanggal:</strong> ${report.date} (${report.startTime} - ${report.endTime})</p>
-            <p><strong>Kategori:</strong> ${report.category}</p>
-            <p><strong>Lokasi:</strong> ${sanitizeHTML(report.location)}</p>
-            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
-            <p><strong>Deskripsi:</strong></p>
-            <p style="white-space: pre-line;">${sanitizeHTML(report.description)}</p>
-            <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
-            <p><strong>Hasil:</strong></p>
-            <p>${sanitizeHTML(report.result) || '-'}</p>
-            ${imagesHtml}
-        </div>
-    `;
-    document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
-    openModal();
-}
+           async function deleteReport(reportId) {
+        if (!confirm("Apakah Anda yakin ingin menghapus laporan ini?")) return;
+
+        const { doc, deleteDoc } = window.fb;
+
+        try {
+            await deleteDoc(doc(window.db, "reports", reportId));
+            await logActivity("REPORT_DELETE", `Menghapus laporan ID: ${reportId}`);
+            showToast("Laporan berhasil dihapus.");
+            renderUserDashboard();
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal hapus: " + err.message, "danger");
+        }
+    }
+
+           async function viewReportDetail(reportId) {
+        const { doc, getDoc } = window.fb;
+        
+        try {
+            const snap = await getDoc(doc(window.db, "reports", reportId));
+            if (!snap.exists()) {
+                showToast("Laporan tidak ditemukan", "danger");
+                return;
+            }
+            const report = { id: snap.id, ...snap.data() };
+
+            // Render daftar gambar jika tersedia
+            let imagesHtml = '';
+            if (report.images && report.images.length > 0) {
+                imagesHtml = `
+                    <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+                    <p><strong>Dokumentasi Foto:</strong></p>
+                    <div class="gallery-grid" style="margin-top: 8px;">
+                        ${report.images.map(img => `
+                            <div class="gallery-card" onclick="openImageModal('${img}', '${sanitizeHTML(report.title)}')">
+                                <img src="${img}" class="gallery-img" alt="Dokumentasi">
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            document.getElementById('modalTitle').innerText = report.title;
+            document.getElementById('modalBody').innerHTML = `
+                <div>
+                    <p><strong>Tanggal:</strong> ${report.date} (${report.startTime} - ${report.endTime})</p>
+                    <p><strong>Kategori:</strong> ${report.category}</p>
+                    <p><strong>Lokasi:</strong> ${sanitizeHTML(report.location)}</p>
+                    <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+                    <p><strong>Deskripsi:</strong></p>
+                    <p style="white-space: pre-line;">${sanitizeHTML(report.description)}</p>
+                    <hr style="margin: 12px 0; border: 0; border-top: 1px solid var(--border-color);">
+                    <p><strong>Hasil:</strong></p>
+                    <p>${sanitizeHTML(report.result) || '-'}</p>
+                    ${imagesHtml}
+                </div>
+            `;
+            document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
+            openModal();
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal load detail", "danger");
+        }
+    }
         /* --------------------------------------------------------------------------
            F. CALENDAR RENDERER
            -------------------------------------------------------------------------- */
@@ -1789,10 +1838,23 @@
         /* --------------------------------------------------------------------------
            G. ADMIN READ-ONLY MONITORING LOGIC
            -------------------------------------------------------------------------- */
-        function renderAdminOverview() {
-            const users = getStorage(STORAGE_USERS, []).filter(u => u.role === 'user');
-            const reports = getStorage(STORAGE_REPORTS, []);
-            const activities = getStorage(STORAGE_ACTIVITIES, []);
+           async function renderAdminOverview() {
+        const { collection, getDocs, query, where } = window.fb;
+
+        try {
+            // Ambil users (role = user)
+            const usersSnap = await getDocs(
+                query(collection(window.db, "users"), where("role", "==", "user"))
+            );
+            const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            // Ambil semua reports
+            const reportsSnap = await getDocs(collection(window.db, "reports"));
+            const reports = reportsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            // Ambil activities
+            const activitiesSnap = await getDocs(collection(window.db, "activities"));
+            const activities = activitiesSnap.docs.map(d => d.data());
 
             const content = document.getElementById('adminContent');
             content.innerHTML = `
@@ -1829,14 +1891,14 @@
                             </thead>
                             <tbody>
                                 ${users.map(u => {
-                                    const uReports = reports.filter(r => r.userId === u.id);
+                                    const uReports = reports.filter(r => r.userId === u.uid);
                                     return `
                                         <tr>
-                                            <td><strong>${sanitizeHTML(u.name)}</strong><br><small>${u.email}</small></td>
+                                            <td><strong>${sanitizeHTML(u.name)}</strong><br><small>${sanitizeHTML(u.email)}</small></td>
                                             <td>${sanitizeHTML(u.school)}<br><small>${sanitizeHTML(u.major)}</small></td>
                                             <td>${uReports.length} Laporan</td>
                                             <td>
-                                                <button class="btn btn-secondary btn-sm" onclick="viewUserDetailAdmin('${u.id}')">Lihat Rekap</button>
+                                                <button class="btn btn-secondary btn-sm" onclick="viewUserDetailAdmin('${u.uid}')">Lihat Rekap</button>
                                             </td>
                                         </tr>
                                     `;
@@ -1846,17 +1908,32 @@
                     </div>
                 </div>
             `;
+        } catch (err) {
+            console.error("Gagal load admin overview:", err);
+            showToast("Gagal memuat data admin", "danger");
         }
+    }
 
-        function switchAdminTab(tab, element) {
-            document.querySelectorAll('#adminSidebar .nav-item').forEach(e => e.classList.remove('active'));
-            if(element) element.classList.add('active');
+            async function switchAdminTab(tab, element) {
+        document.querySelectorAll('#adminSidebar .nav-item').forEach(e => e.classList.remove('active'));
+        if (element) element.classList.add('active');
 
-            if (tab === 'overview') renderAdminOverview();
-            else if (tab === 'users') renderAdminOverview();
-            else if (tab === 'allReports') {
-                const reports = getStorage(STORAGE_REPORTS, []);
-                const users = getStorage(STORAGE_USERS, []);
+        const { collection, getDocs, query, where, orderBy } = window.fb;
+
+        if (tab === 'overview') {
+            renderAdminOverview();
+        }
+        else if (tab === 'users') {
+            renderAdminOverview();
+        }
+        else if (tab === 'allReports') {
+            try {
+                const reportsSnap = await getDocs(collection(window.db, "reports"));
+                const reports = reportsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                const usersSnap = await getDocs(collection(window.db, "users"));
+                const users = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
                 document.getElementById('adminContent').innerHTML = `
                     <div class="page-title"><h2>Seluruh Laporan Siswa (Read-Only)</h2></div>
                     <div class="card">
@@ -1873,7 +1950,7 @@
                                 </thead>
                                 <tbody>
                                     ${reports.map(r => {
-                                        const u = users.find(x => x.id === r.userId);
+                                        const u = users.find(x => x.uid === r.userId);
                                         return `
                                             <tr>
                                                 <td>${u ? sanitizeHTML(u.name) : 'Siswa'}</td>
@@ -1889,93 +1966,162 @@
                         </div>
                     </div>
                 `;
-            } else if (tab === 'activity') {
-                const activities = getStorage(STORAGE_ACTIVITIES, []);
+            } catch (err) {
+                console.error(err);
+                showToast("Gagal load laporan", "danger");
+            }
+        }
+        else if (tab === 'activity') {
+            try {
+                const activitiesSnap = await getDocs(collection(window.db, "activities"));
+                const activities = activitiesSnap.docs
+                    .map(d => d.data())
+                    .sort((a, b) => {
+                        const ta = a.timestamp?.toDate?.() || new Date(0);
+                        const tb = b.timestamp?.toDate?.() || new Date(0);
+                        return tb - ta;
+                    });
+
                 document.getElementById('adminContent').innerHTML = `
                     <div class="page-title"><h2>Log Aktivitas Sistem</h2></div>
                     <div class="card">
                         <ul>
-                            ${activities.map(a => `<li style="margin-bottom:8px; font-size:13px;">[${new Date(a.timestamp).toLocaleString('id-ID')}]${sanitizeHTML(a.description)}</li>`).join('')}
+                            ${activities.length === 0 
+                                ? '<li style="font-size:13px;">Belum ada aktivitas.</li>'
+                                : activities.map(a => {
+                                    const date = a.timestamp?.toDate?.() 
+                                        ? a.timestamp.toDate().toLocaleString('id-ID') 
+                                        : '-';
+                                    return `<li style="margin-bottom:8px; font-size:13px;">[${date}] ${sanitizeHTML(a.description)}</li>`;
+                                }).join('')
+                            }
                         </ul>
                     </div>
                 `;
+            } catch (err) {
+                console.error(err);
+                showToast("Gagal load aktivitas", "danger");
             }
         }
+    }
 
-      function viewUserDetailAdmin(userId) {
-    const users = getStorage(STORAGE_USERS, []);
-    const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === userId);
-    const user = users.find(u => u.id === userId);
+         async function viewUserDetailAdmin(userId) {
+        const { collection, getDocs, query, where } = window.fb;
 
-    document.getElementById('modalTitle').innerText = `Detail Siswa: ${user.name}`;
-    document.getElementById('modalBody').innerHTML = `
-        <div>
-            <p><strong>Sekolah:</strong> ${user.school}</p>
-            <p><strong>Jurusan:</strong> ${user.major}</p>
-            <p><strong>Total Laporan:</strong> ${reports.length}</p>
-            <hr style="margin:12px 0; border:0; border-top:1px solid var(--border-color);">
-            <h4>Laporan Siswa Ini:</h4>
-            <div style="margin-top: 10px;">
-                ${reports.length === 0 ? '<p>Belum ada laporan.</p>' : reports.map(r => `
-                    <div style="padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 8px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>${r.date} —${sanitizeHTML(r.title)}</strong>
-                            <button class="btn btn-secondary btn-sm" onclick="viewReportDetail('${r.id}')">Lihat Detail & Foto</button>
-                        </div>
+        try {
+            // Cari user by uid
+            const userSnap = await getDocs(
+                query(collection(window.db, "users"), where("uid", "==", userId))
+            );
+            if (userSnap.empty) {
+                showToast("User tidak ditemukan", "danger");
+                return;
+            }
+            const user = { id: userSnap.docs[0].id, ...userSnap.docs[0].data() };
+
+            // Ambil laporan user ini
+            const reportsSnap = await getDocs(
+                query(collection(window.db, "reports"), where("userId", "==", userId))
+            );
+            const reports = reportsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            document.getElementById('modalTitle').innerText = `Detail Siswa: ${user.name}`;
+            document.getElementById('modalBody').innerHTML = `
+                <div>
+                    <p><strong>Sekolah:</strong> ${sanitizeHTML(user.school)}</p>
+                    <p><strong>Jurusan:</strong> ${sanitizeHTML(user.major)}</p>
+                    <p><strong>Total Laporan:</strong> ${reports.length}</p>
+                    <hr style="margin:12px 0; border:0; border-top:1px solid var(--border-color);">
+                    <h4>Laporan Siswa Ini:</h4>
+                    <div style="margin-top: 10px;">
+                        ${reports.length === 0 
+                            ? '<p>Belum ada laporan.</p>' 
+                            : reports.map(r => `
+                                <div style="padding: 8px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 8px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                                        <strong>${r.date} — ${sanitizeHTML(r.title)}</strong>
+                                        <button class="btn btn-secondary btn-sm" onclick="viewReportDetail('${r.id}')">Lihat Detail & Foto</button>
+                                    </div>
+                                </div>
+                            `).join('')
+                        }
                     </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
-    openModal();
-}
+                </div>
+            `;
+            document.getElementById('modalFooter').innerHTML = `<button class="btn btn-secondary" onclick="closeModal()">Tutup</button>`;
+            openModal();
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal load detail user", "danger");
+        }
+    }
 
         /* --------------------------------------------------------------------------
            H. BACKUP, RESTORE & PROFILE
            -------------------------------------------------------------------------- */
-        function renderProfileView() {
-            const session = getCurrentSession();
-            const users = getStorage(STORAGE_USERS, []);
-            const user = users.find(u => u.id === session.userId);
-
-            document.getElementById('userContent').innerHTML = `
-                <div class="page-title"><h2>Profil Siswa</h2></div>
-                <div class="card" style="max-width: 600px;">
-                    <form onsubmit="saveProfile(event)">
-                        <div class="form-group">
-                            <label class="form-label">Nama Lengkap</label>
-                            <input type="text" id="profName" class="form-control" value="${sanitizeHTML(user.name)}" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Sekolah</label>
-                            <input type="text" id="profSchool" class="form-control" value="${sanitizeHTML(user.school)}" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Jurusan</label>
-                            <input type="text" id="profMajor" class="form-control" value="${sanitizeHTML(user.major)}" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Simpan Profil</button>
-                    </form>
-                </div>
-            `;
+          function renderProfileView() {
+        const user = window.currentUserData;
+        if (!user) {
+            showToast("Data user tidak ditemukan", "danger");
+            return;
         }
 
-        function saveProfile(e) {
-            e.preventDefault();
-            const session = getCurrentSession();
-            let users = getStorage(STORAGE_USERS, []);
-            const idx = users.findIndex(u => u.id === session.userId);
+        document.getElementById('userContent').innerHTML = `
+            <div class="page-title"><h2>Profil Siswa</h2></div>
+            <div class="card" style="max-width: 600px;">
+                <form onsubmit="saveProfile(event)">
+                    <div class="form-group">
+                        <label class="form-label">Nama Lengkap</label>
+                        <input type="text" id="profName" class="form-control" value="${sanitizeHTML(user.name || '')}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" value="${sanitizeHTML(user.email || '')}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Sekolah</label>
+                        <input type="text" id="profSchool" class="form-control" value="${sanitizeHTML(user.school || '')}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jurusan</label>
+                        <input type="text" id="profMajor" class="form-control" value="${sanitizeHTML(user.major || '')}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan Profil</button>
+                </form>
+            </div>
+        `;
+    }
 
-            if (idx !== -1) {
-                users[idx].name = document.getElementById('profName').value;
-                users[idx].school = document.getElementById('profSchool').value;
-                users[idx].major = document.getElementById('profMajor').value;
-                setStorage(STORAGE_USERS, users);
-                showToast("Profil berhasil diperbarui!");
-                renderUserDashboard();
-            }
+           async function saveProfile(e) {
+        e.preventDefault();
+        const userData = window.currentUserData;
+        if (!userData) return showToast("Data user tidak ditemukan", "danger");
+
+        const { doc, updateDoc } = window.fb;
+
+        try {
+            await updateDoc(doc(window.db, "users", userData.id), {
+                name: document.getElementById('profName').value.trim(),
+                school: document.getElementById('profSchool').value.trim(),
+                major: document.getElementById('profMajor').value.trim()
+            });
+
+            // Update cache global
+            window.currentUserData.name = document.getElementById('profName').value.trim();
+            window.currentUserData.school = document.getElementById('profSchool').value.trim();
+            window.currentUserData.major = document.getElementById('profMajor').value.trim();
+
+            // Update tampilan topbar
+            document.getElementById('userNameDisplay').innerText = window.currentUserData.name;
+            document.getElementById('userAvatar').innerText = window.currentUserData.name.charAt(0).toUpperCase();
+
+            showToast("Profil berhasil diperbarui!");
+            renderUserDashboard();
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal simpan profil: " + err.message, "danger");
         }
+    }
 
         function renderBackupView() {
             document.getElementById('userContent').innerHTML = `
@@ -1993,22 +2139,50 @@
             `;
         }
 
-        function exportDataJSON() {
-            const session = getCurrentSession();
-            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reports, null, 2));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", `backup_jurnal_pkl_${session.userId}.json`);
-            dlAnchorElem.click();
+            async function exportDataJSON() {
+        const user = window.auth.currentUser;
+        if (!user) return showToast("Harus login dulu", "danger");
+
+        const { collection, getDocs, query, where, orderBy } = window.fb;
+
+        try {
+            const q = query(
+                collection(window.db, "reports"),
+                where("userId", "==", user.uid),
+                orderBy("createdAt", "desc")
+            );
+            const snap = await getDocs(q);
+            const reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            const dataStr = "data:text/json;charset=utf-8," + 
+                encodeURIComponent(JSON.stringify(reports, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", dataStr);
+            a.setAttribute("download", `backup_jurnal_pkl_${user.uid}.json`);
+            a.click();
             showToast("Backup JSON berhasil diunduh.");
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal export JSON", "danger");
         }
+    }
 
-        function exportDataCSV() {
-            const session = getCurrentSession();
-            const reports = getStorage(STORAGE_REPORTS, []).filter(r => r.userId === session.userId);
+            async function exportDataCSV() {
+        const user = window.auth.currentUser;
+        if (!user) return showToast("Harus login dulu", "danger");
+
+        const { collection, getDocs, query, where, orderBy } = window.fb;
+
+        try {
+            const q = query(
+                collection(window.db, "reports"),
+                where("userId", "==", user.uid),
+                orderBy("createdAt", "desc")
+            );
+            const snap = await getDocs(q);
+            const reports = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
             let csvContent = "data:text/csv;charset=utf-8,Tanggal,Judul,Kategori,Status,Progress\n";
-
             reports.forEach(r => {
                 csvContent += `"${r.date}","${r.title}","${r.category}","${r.status}","${r.progress}"\n`;
             });
@@ -2016,12 +2190,16 @@
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `laporan_pkl_${session.userId}.csv`);
+            link.setAttribute("download", `laporan_pkl_${user.uid}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             showToast("Export CSV berhasil.");
+        } catch (err) {
+            console.error(err);
+            showToast("Gagal export CSV", "danger");
         }
+    }
 
         /* --------------------------------------------------------------------------
            I. MODAL & UI UTILITIES
@@ -2068,9 +2246,17 @@
 
         // Application Startup
         document.addEventListener('DOMContentLoaded', () => {
-            initData();
-            checkAuthAndRender();
-        });
+        if (window.firebaseReady) {
+            initApp();
+        } else {
+            window.addEventListener('firebase-ready', initApp);
+        }
+    });
+
+    function initApp() {
+        initData();
+        checkAuthAndRender();
+    }
     </script>
 </body>
 </html>
